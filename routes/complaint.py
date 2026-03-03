@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session,relationship
 from database import get_db
 from models.complaint import Complaint
 from schemas.complaint import ComplaintCreate, ComplaintResponse
