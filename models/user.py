@@ -9,4 +9,4 @@ class User(Base):
     email=Column(String, unique=True, index=True)
     role=Column(String, nullable=False)
     password=Column(String, nullable=False)
-    
+    roll_number=Column(String,unique=True,nullable=True)    

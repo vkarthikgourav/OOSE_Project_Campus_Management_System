@@ -5,6 +5,7 @@ class UserCreate(BaseModel):
     email:str
     role: str
     password:str
+    roll_number: str | None
 
 class UserLogin(BaseModel):
     email:str
@@ -16,7 +17,8 @@ class UserResponse(BaseModel):
     name:str
     email:str 
     role: str 
+    roll_number:str | None
 
     class Config:
-        orm_mode=True 
+        from_attributes=True 
 

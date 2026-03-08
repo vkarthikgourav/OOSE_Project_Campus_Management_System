@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session,relationship
+from sqlalchemy.orm import Session
 from database import get_db
 from models.complaint import Complaint
 from schemas.complaint import ComplaintCreate, ComplaintResponse
 from core.dependencies import require_role, get_current_user
+from models.user import User
 
 router=APIRouter()
 
@@ -13,17 +14,20 @@ router=APIRouter()
 def submit_complaint(
     complaint: ComplaintCreate,
     user=Depends(require_role("student")),
-    db: Session=Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-    new=Complaint(
+    #db_user = db.query(User).filter(User.email == user["sub"]).first()
+
+    new = Complaint(
         description=complaint.description,
-        student_email=user.get("sub")
+        student_email=user["sub"]
     )
 
     db.add(new)
     db.commit()
     db.refresh(new)
-    return new 
+
+    return new
 
 @router.get("/complaints", response_model=list[ComplaintResponse])
 def view_all(
@@ -33,7 +37,7 @@ def view_all(
 ):
     return db.query(Complaint).all()
 
-@router.put("/complain/update/{id}")
+@router.put("/complaint/update/{id}")
 def update_status(
     id:int,
     status:str,

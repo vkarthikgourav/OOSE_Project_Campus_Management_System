@@ -10,9 +10,7 @@ class HostelApplication(Base):
     status=Column(String, default="pending")
     room_no=Column(String, nullable=True)
 
-    student_id=Column(Integer,ForeignKey("users.id"))
-    student=relationship("User")
-
+    student_email=Column(String)
 
 class Room(Base):
     __tablename__="rooms"

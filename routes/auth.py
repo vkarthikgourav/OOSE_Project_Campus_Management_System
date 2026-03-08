@@ -10,12 +10,16 @@ router=APIRouter()
 
 @router.post("/register")
 def register(user:UserCreate, db:Session=Depends(get_db)):
+    if user.role!="student":
+        user.roll_number=None
     hashed=hash_password(user.password)
+    
     new_user=User(
         name=user.name,
         email=user.email,
         role=user.role,
-        password=hashed
+        password=hashed,
+        roll_number=user.roll_number
     )
 
     db.add(new_user)
